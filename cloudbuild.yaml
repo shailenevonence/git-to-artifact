@@ -1,0 +1,26 @@
+steps:
+  # Step 1: Remove the Cloud Build file
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud builds substitutions list --config=cloudbuild.yaml > substitutions.txt
+        export CLOUDBUILD_FILE=$(grep -v cloudbuild substitutions.txt)
+        gcloud builds substitutions create "CLOUDBUILD_FILE=${CLOUDBUILD_FILE}" --config=cloudbuild.yaml
+        gcloud builds substitutions delete "$(cat substitutions.txt | grep cloudbuild.yaml | awk '{print $1}')" --config=cloudbuild.yaml
+
+  # Step 2: Dockerize the code and push to the artifact registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/gittoartifact', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/gittoartifact']
+
+substitutions:
+  _SUBSTITUTION_CLOUDBUILD_FILE: 'cloudbuild.yaml'
+
+options:
+  substitution_option: ALLOW_LOOSE
+  env:
+      - 'LOGGING_OPTION=CLOUD_LOGGING_ONLY'
+logsBucket: onramp-sample-bucket
