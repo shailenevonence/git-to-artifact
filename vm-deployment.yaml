@@ -10,7 +10,7 @@ resources:
         boot: true
         autoDelete: true
         initializeParams:
-          sourceImage: projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20210817
+          sourceImage: projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20230628
     networkInterfaces:
       - network: global/networks/default
         accessConfigs:
