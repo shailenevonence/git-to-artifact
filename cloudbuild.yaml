@@ -22,5 +22,6 @@ substitutions:
 options:
   substitution_option: ALLOW_LOOSE
   env:
-      - 'LOGGING_OPTION=CLOUD_LOGGING_ONLY'
+    - 'LOGGING_OPTION=CLOUD_LOGGING_ONLY'
+
 logsBucket: onramp-sample-bucket
