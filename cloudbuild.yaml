@@ -65,7 +65,7 @@ steps:
     args:
       - '-c'
       - |
-        DEPLOYMENT_NAME="vm-deployment-$(date +%s)"
+        export DEPLOYMENT_NAME="vm-deployment-$(date +%s)"
         gcloud deployment-manager deployments create $DEPLOYMENT_NAME --config vm-deployment.yaml
 
 options:
