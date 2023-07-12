@@ -36,7 +36,7 @@ steps:
 
   # Step 3: Deploy the image to a VM using Deployment Manager
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['deployment-manager', 'deployments', 'create', 'vm-deployment', '--config', 'vm-deployment.yaml']
+    args: ['deployment-manager', 'deployments', 'create', 'new-vm-deployment', '--config', 'vm-deployment.yaml']
 
 options:
   env:
