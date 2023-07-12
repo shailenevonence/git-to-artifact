@@ -59,13 +59,21 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/gittoartifact']
 
-  # Step 3: Deploy the image to a VM using Deployment Manager
+  # Step 3: Set the deployment name environment variable
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        export DEPLOYMENT_NAME="vm-deployment-$(date +%s)"
+        echo "DEPLOYMENT_NAME=vm-deployment-$(date +%s)" >> $BASH_ENV
+
+  # Step 4: Deploy the image to a VM using Deployment Manager
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        source $BASH_ENV
         gcloud deployment-manager deployments create $DEPLOYMENT_NAME --config vm-deployment.yaml
 
 options:
