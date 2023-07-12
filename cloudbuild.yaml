@@ -34,9 +34,9 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/gittoartifact']
 
-  # Step 3: Deploy the image to the VM using Deployment Manager
+  # Step 3: Deploy the image to a VM using Deployment Manager
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['compute', 'instances', 'update-container', 'git-gcp-vm', '--zone', 'us-central1-a', '--container-image', 'gcr.io/$PROJECT_ID/gittoartifact']
+    args: ['deployment-manager', 'deployments', 'create', 'vm-deployment', '--config', 'vm-deployment.yaml']
 
 options:
   env:

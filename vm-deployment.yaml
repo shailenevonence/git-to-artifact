@@ -1,0 +1,24 @@
+resources:
+- name: git-gcp-vm
+  type: compute.v1.instance
+  properties:
+    zone: us-central1-a
+    machineType: zones/us-central1-a/machineTypes/e2-medium
+    disks:
+      - deviceName: boot
+        type: PERSISTENT
+        boot: true
+        autoDelete: true
+        initializeParams:
+          sourceImage: projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20210817
+    networkInterfaces:
+      - network: global/networks/default
+        accessConfigs:
+          - name: External NAT
+            type: ONE_TO_ONE_NAT
+    metadata:
+      items:
+        - key: startup-script
+          value: |
+            #!/bin/bash
+            docker run -d -p 80:80 gcr.io/$PROJECT_ID/gittoartifact
