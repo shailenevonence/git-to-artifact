@@ -6,8 +6,8 @@ steps:
       - '-c'
       - |
         gcloud builds substitutions list --config=cloudbuild.yaml > substitutions.txt
-        export CLOUDBUILD_FILE=$(grep -v cloudbuild substitutions.txt)
-        gcloud builds substitutions create "CLOUDBUILD_FILE=${CLOUDBUILD_FILE}" --config=cloudbuild.yaml
+        export FILE_NAME=$(grep -v cloudbuild substitutions.txt)
+        gcloud builds substitutions create "FILE_NAME=${FILE_NAME}" --config=cloudbuild.yaml
         gcloud builds substitutions delete "$(cat substitutions.txt | grep cloudbuild.yaml | awk '{print $1}')" --config=cloudbuild.yaml
 
   # Step 2: Dockerize the code and push to the artifact registry
@@ -17,7 +17,7 @@ steps:
     args: ['push', 'gcr.io/$PROJECT_ID/gittoartifact']
 
 substitutions:
-  _SUBSTITUTION_CLOUDBUILD_FILE: 'cloudbuild.yaml'
+  _SUBSTITUTION_FILE_NAME: 'cloudbuild.yaml'
 
 options:
   substitution_option: ALLOW_LOOSE
