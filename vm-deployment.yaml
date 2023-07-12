@@ -11,15 +11,18 @@ resources:
         autoDelete: true
         initializeParams:
           sourceImage: projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20230628
+          # Specify the source image for the VM. Update the image version as needed.
     networkInterfaces:
       - network: global/networks/default
         accessConfigs:
           - name: External NAT
             type: ONE_TO_ONE_NAT
+            # Set up network configuration for the VM
     metadata:
       items:
         - key: startup-script
           value: |
             #!/bin/bash
             docker run -d -p 5000:5000 gcr.io/$PROJECT_ID/gittoartifact
-
+            # Set up the startup script for the VM. It runs a Docker container with port mapping.
+            # Update the port numbers and image name as required.
