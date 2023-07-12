@@ -1,3 +1,24 @@
+# steps:
+#   # Step 1: Remove the Cloud Build file
+#   - name: 'gcr.io/cloud-builders/gcloud'
+#     entrypoint: 'bash'
+#     args:
+#       - '-c'
+#       - |
+#         rm cloudbuild.yaml
+
+#   # Step 2: Dockerize the code and push to the artifact registry
+#   - name: 'gcr.io/cloud-builders/docker'
+#     args: ['build', '-t', 'gcr.io/$PROJECT_ID/gittoartifact', '.']
+#   - name: 'gcr.io/cloud-builders/docker'
+#     args: ['push', 'gcr.io/$PROJECT_ID/gittoartifact']
+
+# options:
+#   env:
+#     - 'LOGGING_OPTION=CLOUD_LOGGING_ONLY'
+
+# logsBucket: onramp-sample-bucket
+
 steps:
   # Step 1: Remove the Cloud Build file
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -12,6 +33,10 @@ steps:
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/gittoartifact', '.']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/gittoartifact']
+
+  # Step 3: Deploy the image to the VM using Deployment Manager
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['compute', 'instances', 'update-container', 'git-gcp-vm', '--zone', 'us-central1-a', '--container-image', 'gcr.io/$PROJECT_ID/gittoartifact']
 
 options:
   env:
