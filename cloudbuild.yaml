@@ -1,0 +1,36 @@
+steps:
+  # Step 1: Remove the Cloud Build file
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        rm cloudbuild.yaml
+
+  # Step 2: Dockerize the code and push to the artifact registry
+  - name: 'gcr.io/cloud-builders/artifact-registry/docker'
+    args: ['build', '-t', '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE}', '.']
+  - name: 'gcr.io/cloud-builders/artifact-registry/docker'
+    args: ['push', '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE}']
+
+  # Step 3: Set the deployment name in a file
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "vm-deployment-$(date +%s)" > deployment-name.txt
+
+  # Step 4: Deploy the image to a VM using Deployment Manager
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud deployment-manager deployments create $(cat deployment-name.txt) --config vm-deployment.yaml
+
+options:
+  env:
+    - 'LOGGING_OPTION=CLOUD_LOGGING_ONLY'
+
+logsBucket: ncorium-bucket
