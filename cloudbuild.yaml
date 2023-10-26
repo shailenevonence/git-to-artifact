@@ -33,4 +33,4 @@ options:
   env:
     - 'LOGGING_OPTION=CLOUD_LOGGING_ONLY'
 
-logsBucket: onramp-sample-bucket
+logsBucket: ncorium-bucket
