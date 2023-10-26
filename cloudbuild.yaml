@@ -9,9 +9,9 @@ steps:
 
   # Step 2: Dockerize the code and push to the artifact registry
   - name: 'gcr.io/cloud-builders/artifact-registry/docker'
-    args: ['build', '-t', '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE}', '.']
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/app-latest', '.']
   - name: 'gcr.io/cloud-builders/artifact-registry/docker'
-    args: ['push', '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE}']
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/app-latest']
 
   # Step 3: Set the deployment name in a file
   - name: 'gcr.io/cloud-builders/gcloud'
