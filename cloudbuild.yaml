@@ -5,11 +5,10 @@ steps:
     args:
       - '-c'
       - |
-        gcloud artifacts repositories create test-application --location=us-central1 --repository-format=DOCKER
 
   # Step 2: Dockerize the code and push to the new Artifact Registry
   - name: 'gcr.io/cloud-builders/artifact-registry/docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app', '.']
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app']
   - name: 'gcr.io/cloud-builders/artifact-registry/docker'
     args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app']
 
