@@ -7,11 +7,11 @@ steps:
       - |
         rm cloudbuild.yaml
 
-  # Step 2: Dockerize the code and push to the artifact registry
+  # Step 2: Dockerize the code and push to the Artifact Registry
   - name: 'gcr.io/cloud-builders/artifact-registry/docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/app-latest', '.']
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/app:v0.1.0', '.']
   - name: 'gcr.io/cloud-builders/artifact-registry/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/app-latest']
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/app:v0.1.0']
 
   # Step 3: Set the deployment name in a file
   - name: 'gcr.io/cloud-builders/gcloud'
