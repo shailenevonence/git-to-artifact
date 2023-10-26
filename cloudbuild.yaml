@@ -9,6 +9,9 @@ steps:
   # Step 2: Dockerize the code and push to the new Artifact Registry
   - name: 'gcr.io/cloud-builders/artifact-registry/docker'
     args: ['build', '-t', 'us-central1-docker.pkg.dev/nc-ev-test/test-application/app:tag1', '.']
+images:
+  - 'us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag1'
+  
   - name: 'gcr.io/cloud-builders/artifact-registry/docker'
     args: ['push', 'us-central1-docker.pkg.dev/nc-ev-test/test-application/app:tag1']
 
