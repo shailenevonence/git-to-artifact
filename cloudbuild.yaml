@@ -1,12 +1,24 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app1:latest', 'app1']
+  args: 
+    [
+      "build", 
+      "-t", 
+      "us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app1:latest",
+      "app1",
+    ]
 
 - name: 'gcr.io/cloud-builders/artifact-registry/docker'
   args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app1:latest']
 
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app2:latest', 'app2']
+  args: 
+    [
+      "build", 
+      "-t", 
+      "us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app2:latest", 
+      "app2",
+    ]
 
 - name: 'gcr.io/cloud-builders/artifact-registry/docker'
   args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app2:latest']
