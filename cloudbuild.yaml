@@ -1,17 +1,17 @@
 steps:
-  # Step 1: Remove the Cloud Build file
+  # Step 1: Create a new Artifact Registry
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        rm cloudbuild.yaml
+        gcloud artifacts repositories create test-application --location=us-central1
 
-  # Step 2: Dockerize the code and push to the Artifact Registry
+  # Step 2: Dockerize the code and push to the new Artifact Registry
   - name: 'gcr.io/cloud-builders/artifact-registry/docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/app', '.']
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app', '.']
   - name: 'gcr.io/cloud-builders/artifact-registry/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/gcf-artifacts/app']
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app']
 
   # Step 3: Set the deployment name in a file
   - name: 'gcr.io/cloud-builders/gcloud'
