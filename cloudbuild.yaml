@@ -15,6 +15,6 @@ options:
   env:
     - 'LOGGING_OPTION=CLOUD_LOGGING_ONLY'
 images:
-- 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app1'
-- 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app2'
+- 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app1:latest'
+- 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app2:latest'
 logsBucket: ncorium-bucket
