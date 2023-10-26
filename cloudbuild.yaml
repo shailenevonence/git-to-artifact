@@ -2,10 +2,10 @@ steps:
 
   # Step 2: Dockerize the code and push to the new Artifact Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app:$SHA', '.']
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app:$COMMIT_SHA', '.']
   
 - name: 'gcr.io/cloud-builders/artifact-registry/docker'
-  args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app:$SHA']
+  args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/test-application/app:$COMMIT_SHA']
 
   # Step 3: Set the deployment name in a file
 - name: 'gcr.io/cloud-builders/gcloud'
